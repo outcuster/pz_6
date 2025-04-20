@@ -1,118 +1,100 @@
 # Отчёт по выполнению практических заданий с Git
 
-## 1. Клонирование репозитория
+1. Клонирование репозитория
 
 - Клонирование через SSH или HTTPS:
-  ```bash
   git clone git@github.com:outcuster/pz_6.git
   # или
   git clone https://github.com/outcuster/pz_6.git
-  ```
-- Переход в каталог проекта:
-  ```bash
-  cd pz_6
-  ```
+Переход в каталог проекта:
+cd pz_6
 
-## 2. Обновление локальной ветки
+2. Обновление локальной ветки
+Подтягиваем последние изменения из удалённого репозитория:
+git pull origin main
+# или, если основная ветка называется master:
+git pull origin master
 
-- Подтягиваем последние изменения из удалённого репозитория:
-  ```bash
-  git pull origin main
-  # или, если основная ветка называется master:
-  git pull origin master
-  ```
 
-## 3. Просмотр веток и истории
+3. Просмотр веток и истории
+Список всех локальных и удалённых веток:
+git branch -a
 
-- Список всех локальных и удалённых веток:
-  ```bash
-  git branch -a
-  ```
-- Графическая однострочная история ветки `master`:
-  ```bash
-  git log master --oneline --decorate --graph
-  ```
+Графическая однострочная история ветки master:
+git log master --oneline --decorate --graph
 
-## 4. Моделирование конфликта
+4. Моделирование конфликта
+Создаём новую ветку для конфликта:
+git checkout -b conflict-branch
+Редактируем файл README.md (добавляем свою метку) и сохраняем:
 
-1. Создаём новую ветку для конфликта:
-   ```bash
-   git checkout -b conflict-branch
-   ```
-2. Редактируем файл `README.md` (добавляем свою метку) и сохраняем.
-3. Фиксируем изменения в `conflict-branch`:
-   ```bash
-   git add README.md
-   git commit -m "chore: что-то сделал в conflict-branch"
-   ```
-4. Отправляем ветку на сервер и связываем с удалённой:
-   ```bash
-   git push -u origin conflict-branch
-   ```
+Фиксируем изменения в conflict-branch:
 
-## 5. Подготовка основной ветки к конфликту
 
-1. Возвращаемся на `main` (или `master`):
-   ```bash
-   git checkout main
-   ```
-2. Вносим другие изменения в тот же участок `README.md`.
-3. Фиксируем и отправляем:
-   ```bash
-   git add README.md
-   git commit -m "chore: помечена версия из master для демонстрации конфликта"
-   git push origin main
-   ```
+git add README.md
+git commit -m "chore: что-то сделал в conflict-branch"
+Отправляем ветку на сервер и связываем с удалённой:
 
-## 6. Слияние и разрешение конфликта
+git push -u origin conflict-branch
 
-- Сливаем ветку `conflict-branch` в `main`:
-  ```bash
-  git merge conflict-branch
-  ```
-- При возникновении конфликта в `README.md`:
-  1. Открываем файл.
-  2. Выбираем нужный вариант (удаляем маркеры `<<<<<<<`, `=======`, `>>>>>>>`).
-  3. Сохраняем.
-- Завершаем слияние:
-  ```bash
-  git add README.md
-  git commit -m "fix: разрешён конфликт при слиянии с conflict-branch"
-  git push origin main
-  ```
+5. Подготовка основной ветки к конфликту
+Возвращаемся на main (или master):
 
-## 7. Удаление побочной ветки
 
-- Локально:
-  ```bash
-  git branch -d conflict-branch
-  ```
-- На сервере:
-  ```bash
-  git push origin --delete conflict-branch
-  ```
 
-## 8. Дополнительные изменения и фиксации
 
-- Вносим правки в любой файл, затем:
-  ```bash
-  git add README.md
-  git commit -m "feat: добавил дополнительный раздел"
-  ```
-- Повторяем цикл «редактирование → `git add` → `git commit`» столько раз, сколько нужно.
+git checkout main
+Вносим другие изменения в тот же участок README.md:
 
-## 9. «Хард» откат к предыдущему коммиту
+Фиксируем и отправляем:
 
-1. Просматриваем историю и находим нужный хэш:
-   ```bash
-   git log --oneline
-   ```
-2. Жёсткий откат (все незакоммиченные изменения будут потеряны):
-   ```bash
-   git reset --hard <commit-hash>
-   ```
-3. При необходимости принудительно синхронизировать удалённую ветку:
-   ```bash
-   git push --force origin main
-   ```
 
+git add README.md
+git commit -m "chore: помечена версия из master для демонстрации конфликта"
+git push origin main
+
+6. Слияние и разрешение конфликта
+Сливаем ветку conflict-branch в main:
+
+
+git merge conflict-branch
+Возникает конфликт в README.md — открываем файл, выбираем правильный вариант, удаляем маркеры <<<<<<<, =======, >>>>>>>.
+
+Завершаем слияние:
+
+
+git add README.md
+git commit -m "fix: разрешён конфликт при слиянии с conflict-branch"
+git push origin main
+
+
+7. Удаление побочной ветки
+Локально:
+
+
+git branch -d conflict-branch
+На сервере:
+
+
+git push origin --delete conflict-branch
+8. Дополнительные изменения и фиксации
+Вносим правки в любой файл, затем:
+
+
+git add README.md
+git commit -m "feat: добавил дополнительный раздел"
+Повторяем коммит несколько раз по необходимости.
+
+9. «Хард» откат к предыдущему коммиту
+Просматриваем историю, находим нужный хэш:
+
+
+git log --oneline
+Жёсткий откат (все незакоммиченные изменения будут потеряны):
+
+
+git reset --hard <commit-hash>
+При необходимости принудительно синхронизировать удалённую ветку:
+
+
+git push --force origin main
